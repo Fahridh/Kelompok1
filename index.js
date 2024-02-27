@@ -1,13 +1,19 @@
 // PSUDOCODE BEGIN
-// Deklarasikan jumlah jawaban benar dan salah
-let correct_answer = 0;
-let wrong_answer = 0;
-
 // Deklarasikan user
-let user = {
-  name: "Dummy",
-  answers: [],
-};
+let users = [
+  {
+    name: "Dummy",
+    correct_answer: 0,
+    wrong_answer: 0,
+    answers: [],
+  },
+  {
+    name: "Dummy 2",
+    correct_answer: 0,
+    wrong_answer: 0,
+    answers: [],
+  },
+];
 
 // Deklarasikan pertanyaan kuis
 let questions = [
@@ -121,58 +127,62 @@ getHasilKuis();
 // PSEUDOCODE END
 
 function mulaiKuis() {
-  // Siapkan jawaban user secara random
-  for (let i = 0; i < 10; i++) {
-    user.answers.push(RandomAnswer());
-  }
-
-  // Looping setiap pertanyaan kuis
-  questions.forEach((question, index) => {
-    // Tampilkan nomor soal dan pertanyaan
-    console.log(`${index + 1}.${question.soal}`);
-
-    // Tampilkan seluruh pilihan
-    for (const key in question.choice) {
-      console.log(`  ${key}.${question.choice[key]}`);
+  users.forEach((user) => {
+    // Siapkan jawaban user secara random
+    for (let i = 0; i < 10; i++) {
+      user.answers.push(RandomAnswer());
     }
 
-    // Tampilkan jawaban user
-    console.log(
-      `Jawaban User : ${
-        user.answers[index] === undefined ? "-" : user.answers[index]
-      } \n`
-    );
+    // Looping setiap pertanyaan kuis
+    questions.forEach((question, index) => {
+      // Tampilkan nomor soal dan pertanyaan
+      console.log(`${index + 1}.${question.soal}`);
 
-    // Jika jawaban user sama dengan jawaban benar soal
-    if (user.answers[index] === question.correct_answer) {
-      // Tambah jawaban benar
-      correct_answer++;
-    }
+      // Tampilkan seluruh pilihan
+      for (const key in question.choice) {
+        console.log(`  ${key}.${question.choice[key]}`);
+      }
 
-    // Jika salah
-    else {
-      // Tambah jawaban salah
-      wrong_answer++;
-    }
+      // Tampilkan jawaban user
+      console.log(
+        `Jawaban User ${user.name} : ${
+          user.answers[index] === undefined ? "-" : user.answers[index]
+        } \n`
+      );
+
+      // Jika jawaban user sama dengan jawaban benar soal
+      if (user.answers[index] === question.correct_answer) {
+        // Tambah jawaban benar
+        user.correct_answer++;
+      }
+
+      // Jika salah
+      else {
+        // Tambah jawaban salah
+        user.wrong_answer++;
+      }
+    });
   });
 }
 
 function getHasilKuis() {
   console.log("Quiz Selesai !");
 
-  // Looping Pertanyaan
-  questions.forEach((question, index) => {
-    // Tampilkan soal, jawaban benar dan jawaban user
-    console.log(`${index + 1}.${question.soal}`);
-    console.log(`Jawaban benar : ${question.correct_answer}`);
-    console.log(`Jawaban user : ${user.answers[index]} \n`);
-  });
+  users.forEach((user) => {
+    // Looping Pertanyaan
+    questions.forEach((question, index) => {
+      // Tampilkan soal, jawaban benar dan jawaban user
+      console.log(`${index + 1}.${question.soal}`);
+      console.log(`Jawaban benar : ${question.correct_answer}`);
+      console.log(`Jawaban ${user.name} : ${user.answers[index]} \n`);
+    });
 
-  // Tampilkan jumlah jawaban benar dan salah user
-  console.log("Hasil Quiz");
-  console.log("Nama  : " + user.name)
-  console.log(`Jawaban Benar : ${correct_answer}`);
-  console.log(`Jawaban Salah : ${wrong_answer}`);
+    // Tampilkan jumlah jawaban benar dan salah user
+    console.log("Hasil Quiz");
+    console.log("Nama  : " + user.name);
+    console.log(`Jawaban Benar : ${user.correct_answer}`);
+    console.log(`Jawaban Salah : ${user.wrong_answer} \n`);
+  });
 }
 
 function RandomAnswer() {
